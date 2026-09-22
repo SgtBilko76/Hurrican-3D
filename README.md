@@ -1,4 +1,48 @@
+# Hurrican Quest VR
+
 [![Sponsor](https://img.shields.io/badge/Sponsor-SgtBilko76-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SgtBilko76)
+
+A standalone Meta Quest port (Quest 2 / 3 / 3S / Pro) of [Hurrican](https://www.winterworks.de/project/hurrican/), the freeware run-and-gun inspired by Turrican.
+
+The game is played on a large world-locked virtual screen. Its draw layers (sky, parallax planes, tiles, playfield, overlays, HUD) are composited per eye at different depths for a stereoscopic "diorama" look. The Touch controllers are fully mapped, with rumble, and can be remapped in *Options → Define Buttons*.
+
+## Install
+
+1. Enable developer mode on your Quest.
+2. Download the APK from the [Releases](../../releases) page.
+3. Sideload it with [SideQuest](https://sidequestvr.com/) or `adb install -r <file>.apk`.
+4. Launch it from *Library → Unknown Sources*.
+
+All game data is inside the APK. The APK is signed with a debug key, so uninstall any previous differently-signed build first.
+
+## Controls
+
+| Input | Action |
+|---|---|
+| Left stick | Move / look up / duck |
+| Right stick | Look up / down |
+| A | Jump |
+| Right trigger | Shoot |
+| B | Lightning |
+| X | Powerline |
+| Y | Grenade |
+| Left trigger | Smart bomb |
+| Right grip | Cycle weapon |
+| Menu (left controller) | Pause / back |
+| Click both sticks | Recenter the screen |
+
+## Tuning
+
+Screen size and distance, 3D depth strength and refresh rate are set in `files/vr.cfg` in the app's private storage. Delete the file to restore the defaults. The default depth strength is 0.10.
+
+Build instructions are in the *Building for Meta Quest* section below.
+
+---
+
+## Original Hurrican README
+
+> Below is the upstream project's README, kept for credits, licensing and desktop build instructions.
+
 
 [![CI build](https://github.com/HurricanGame/Hurrican/actions/workflows/build.yml/badge.svg)](https://github.com/HurricanGame/Hurrican/actions/workflows/build.yml)
 
@@ -14,13 +58,13 @@ CRT simulation partially based on [CRT effect - Shadertoy, Unity](https://luka71
 
 ---
 
-### Dependencies
+#### Dependencies
 
 The code depends on SDL2 (or the old deprecated SDL) with the image and mixer components, and libepoxy.
 Optionally libopenmpt can be used for the music in place of the standard from SDL_mixer (see below).
 A compiler with c++17 support is required.
 
-### Building
+#### Building
 
 The code can be built using cmake (tested on Linux and MinGW)
 
@@ -58,7 +102,7 @@ Debug
 * -DDISABLE_MEMPOOLING=ON : Bypass pooled memory manager
 * -DCMAKE_BUILD_TYPE=<Asan|Ubsan>: Enable the Address or Undefined Behaviour Sanitizer
 
-### Building for Meta Quest (standalone VR APK)
+#### Building for Meta Quest (standalone VR APK)
 
 The `Hurrican/android` Gradle project builds a standalone Quest APK: the game is presented on a
 large virtual screen whose draw layers (sky, parallax planes, tiles, sprites, overlays, HUD) are
@@ -85,7 +129,7 @@ A = jump, right trigger = shoot, B = lightning, X = powerline, Y = grenade,
 left trigger = smart bomb, right grip = cycle weapon, Menu (left controller) = pause / back,
 click both sticks = recenter the screen.
 
-### Running
+#### Running
 
 To launch Hurrican, go back under the Hurrican folder
 

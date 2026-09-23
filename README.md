@@ -115,8 +115,9 @@ submodules; the OpenXR loader comes from the Khronos Maven AAR via prefab.
 
     git clone --recurse-submodules https://github.com/HurricanGame/Hurrican.git
     cd Hurrican/Hurrican/android
-    ./gradlew assembleDebug                    # -PhurricanPlatform=ANDROID for a flat, non-VR test build
-    adb install -r app/build/outputs/apk/debug/app-debug.apk
+    ./gradlew assembleQuestDebug               # or assemblePicoDebug for PICO 4 / Neo 3 headsets;
+                                               # -PhurricanPlatform=ANDROID for a flat, non-VR test build
+    adb install -r app/build/outputs/apk/quest/debug/app-quest-debug.apk
 
 The game data is packed into the APK and extracted to the app's private storage on first
 start. Settings, savegames and `vr.cfg` (virtual screen size/distance, depth strength,

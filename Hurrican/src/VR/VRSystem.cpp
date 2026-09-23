@@ -62,6 +62,7 @@ bool recenterPending_ = true;
 glm::mat4 screenModel_(1.0f);
 jobject activityGlobalRef_ = nullptr;
 bool hasRefreshRateExt_ = false;
+bool hasPicoControllerExt_ = false;
 PFN_xrRequestDisplayRefreshRateFB pfnRequestDisplayRefreshRateFB_ = nullptr;
 
 glm::mat4 PoseToMatrix(const XrPosef &pose) {
@@ -421,6 +422,10 @@ bool Init() {
     hasRefreshRateExt_ = HasExtension(exts, XR_FB_DISPLAY_REFRESH_RATE_EXTENSION_NAME);
     if (hasRefreshRateExt_)
         enabled.push_back(XR_FB_DISPLAY_REFRESH_RATE_EXTENSION_NAME);
+    // PICO runtimes expose their controllers through this extension
+    hasPicoControllerExt_ = HasExtension(exts, XR_BD_CONTROLLER_INTERACTION_EXTENSION_NAME);
+    if (hasPicoControllerExt_)
+        enabled.push_back(XR_BD_CONTROLLER_INTERACTION_EXTENSION_NAME);
 
     XrInstanceCreateInfoAndroidKHR androidInfo{XR_TYPE_INSTANCE_CREATE_INFO_ANDROID_KHR};
     androidInfo.applicationVM = vm;
@@ -549,6 +554,10 @@ void PollEvents() {
         }
         ev = {XR_TYPE_EVENT_DATA_BUFFER};
     }
+}
+
+bool PicoControllersAvailable() {
+    return hasPicoControllerExt_;
 }
 
 bool SessionRunning() {

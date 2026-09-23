@@ -31,6 +31,10 @@ extern XrState xr;
 // Log an XrResult failure (returns true on success).
 bool CheckXr(XrResult res, const char *what);
 
+// True when XR_BD_controller_interaction was enabled (PICO runtimes) and the
+// bytedance/pico* interaction profiles may be suggested.
+bool PicoControllersAvailable();
+
 void Log(const char *fmt, ...);
 
 }  // namespace VR

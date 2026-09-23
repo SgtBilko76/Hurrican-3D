@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- PICO OS does not declare the Android VR feature; keep it informational only -->
+    <uses-feature android:name="android.hardware.vr.headtracking" android:version="1" android:required="false"
+        tools:node="replace" />
+
+    <application>
+        <!-- PICO launcher: treat this app as a VR (immersive) app -->
+        <meta-data android:name="pvr.app.type" android:value="vr" />
+
+        <activity
+            android:name="com.hurricangame.quest.HurricanActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:excludeFromRecents="false"
+            android:alwaysRetainTaskState="true"
+            android:resizeableActivity="false"
+            android:configChanges="density|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|uiMode|locale|layoutDirection|smallestScreenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="org.khronos.openxr.intent.category.IMMERSIVE_HMD" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

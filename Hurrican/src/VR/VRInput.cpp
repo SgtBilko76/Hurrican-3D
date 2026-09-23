@@ -112,7 +112,17 @@ bool Init() {
     if (!ok)
         return false;
 
-    const std::vector<XrActionSuggestedBinding> bindings = {
+    auto suggestProfile = [](const char *profile, const std::vector<XrActionSuggestedBinding> &bindings) {
+        XrInteractionProfileSuggestedBinding suggested{XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
+        suggested.interactionProfile = Path(profile);
+        suggested.countSuggestedBindings = static_cast<uint32_t>(bindings.size());
+        suggested.suggestedBindings = bindings.data();
+        const XrResult res = xrSuggestInteractionProfileBindings(VR::xr.instance, &suggested);
+        VR::Log("suggested bindings for %s -> %d", profile, static_cast<int>(res));
+        return XR_SUCCEEDED(res);
+    };
+
+    const std::vector<XrActionSuggestedBinding> touchBindings = {
         {actA_, Path("/user/hand/right/input/a/click")},
         {actB_, Path("/user/hand/right/input/b/click")},
         {actX_, Path("/user/hand/left/input/x/click")},
@@ -129,13 +139,34 @@ bool Init() {
         {actHaptic_, Path("/user/hand/left/output/haptic")},
         {actHaptic_, Path("/user/hand/right/output/haptic")},
     };
-    XrInteractionProfileSuggestedBinding suggested{XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING};
-    suggested.interactionProfile = Path("/interaction_profiles/oculus/touch_controller");
-    suggested.countSuggestedBindings = static_cast<uint32_t>(bindings.size());
-    suggested.suggestedBindings = bindings.data();
-    if (!VR::CheckXr(xrSuggestInteractionProfileBindings(VR::xr.instance, &suggested),
-                     "xrSuggestInteractionProfileBindings(touch)"))
+    if (!suggestProfile("/interaction_profiles/oculus/touch_controller", touchBindings))
         return false;
+
+    if (VR::PicoControllersAvailable()) {
+        // PICO Neo3 / PICO 4 controllers (XR_BD_controller_interaction). Same layout as
+        // Touch; the grip action (float) binds to squeeze/click, which both models have.
+        const std::vector<XrActionSuggestedBinding> picoBindings = {
+            {actA_, Path("/user/hand/right/input/a/click")},
+            {actB_, Path("/user/hand/right/input/b/click")},
+            {actX_, Path("/user/hand/left/input/x/click")},
+            {actY_, Path("/user/hand/left/input/y/click")},
+            {actMenu_, Path("/user/hand/left/input/menu/click")},
+            {actTrigger_, Path("/user/hand/left/input/trigger/value")},
+            {actTrigger_, Path("/user/hand/right/input/trigger/value")},
+            {actGrip_, Path("/user/hand/left/input/squeeze/click")},
+            {actGrip_, Path("/user/hand/right/input/squeeze/click")},
+            {actStick_, Path("/user/hand/left/input/thumbstick")},
+            {actStick_, Path("/user/hand/right/input/thumbstick")},
+            {actStickClick_, Path("/user/hand/left/input/thumbstick/click")},
+            {actStickClick_, Path("/user/hand/right/input/thumbstick/click")},
+            {actHaptic_, Path("/user/hand/left/output/haptic")},
+            {actHaptic_, Path("/user/hand/right/output/haptic")},
+        };
+        // Not fatal if a PICO OS build rejects one of these: the runtime can still
+        // rebind from the Touch profile suggestion.
+        suggestProfile("/interaction_profiles/bytedance/pico_neo3_controller", picoBindings);
+        suggestProfile("/interaction_profiles/bytedance/pico4_controller", picoBindings);
+    }
 
     XrSessionActionSetsAttachInfo attach{XR_TYPE_SESSION_ACTION_SETS_ATTACH_INFO};
     attach.countActionSets = 1;

@@ -273,7 +273,7 @@ void LoadConfig(const std::string &path) {
     std::ifstream in(path);
     if (!in) {
         std::ofstream out(path);
-        out << "# Hurrican-3D settings (metres / factors). Delete this file to restore defaults.\n"
+        out << "# Hurrican 3D settings (metres / factors). Delete this file to restore defaults.\n"
             << "screen_width = " << config.screenWidth << "\n"
             << "screen_distance = " << config.screenDistance << "\n"
             << "screen_height = " << config.screenHeight << "\n"

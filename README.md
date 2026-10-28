@@ -1,5 +1,7 @@
 # Hurrican 3D
 
+**Download, install guide, controls and pictures: [portroyale.online/hurrican.html](https://portroyale.online/hurrican.html)**
+
 [![Sponsor](https://img.shields.io/badge/Sponsor-SgtBilko76-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/SgtBilko76)
 
 A standalone Meta Quest port (Quest 2 / 3 / 3S / Pro) of [Hurrican](https://www.winterworks.de/project/hurrican/), the freeware run-and-gun inspired by Turrican.

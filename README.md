@@ -17,6 +17,8 @@ All game data is inside the APK. The APK is signed with a debug key, so uninstal
 
 ## Controls
 
+![Hurrican 3D controller mapping](docs/controls.webp)
+
 | Input | Action |
 |---|---|
 | Left stick | Move / look up / duck |
